@@ -1,6 +1,6 @@
-# 🏠 Das ultimative Home Assistant Familien-Dashboard & Kiosk-System
+# 🏠 Das ultimative Home Assistant Familien- & Haussteuerungs-Dashboard (Kiosk-System)
 
-Dieses Projekt enthält die vollständige Dokumentation zum Aufbau eines intelligenten, familienfreundlichen Smart-Home-Displays. Es besteht aus zwei separaten Raspberry Pis: Einem dedizierten Home Assistant Server und einem an der Wand montierten 7-Zoll-Touch-Display (Kiosk).
+Dieses Projekt enthält die vollständige Dokumentation zum Aufbau eines intelligenten, familienfreundlichen Smart-Home-Displays. Es verbindet eine **umfangreiche Haussteuerung** (Licht, Heizung, Rollläden, Geräte) mit wichtigen **Familienfunktionen** (Google Kalender, Einkaufsliste, Putzplan, Pinnwand) auf einem Wand-Touchscreen.
 
 ---
 
@@ -10,12 +10,13 @@ Das System wird aus Sicherheits- und Performance-Gründen strikt getrennt:
 1. **Server-Zentrale (Pi 4 oder 5 empfohlen):** Hier läuft das "Gehirn" (Home Assistant OS). Er verwaltet alle Geräte, Automationen und Daten.
 2. **Display-Kiosk (Pi 3B, 4 oder 5):** Hier läuft ein schlankes Raspberry Pi OS, das ausschließlich als interaktiver Touch-Monitor dient.
 
-### 🛒 Einkaufsliste / Hardware-Komponenten
-* **Server:** [Raspberry Pi 4 (min. 4GB RAM)](https://raspberrypi.com) oder [Pi 5](https://raspberrypi.com) + offizielles Netzteil.
-* **Display-Pi:** Raspberry Pi 3B, 4 oder 5.
-* **Touchscreen:** [7-Zoll-Touchscreen mit HDMI (Bild) und USB (Touch-Daten)](https://raspberrypi.com).
-* **Speichermedien:** 2x MicroSD-Karten (Min. 32GB, empfohlen: [SanDisk Max Endurance](https://westerndigital.com)).
-* **Kabel:** Passende HDMI-Kabel und USB-Verbindungskabel für das Display.
+### 🛒 Einkaufsliste & Kauf-Links
+* **Server-Zentrale:** [Raspberry Pi 5 (8GB RAM)](https://www.berrybase.de/raspberry-pi-5-8gb-ram) oder [Raspberry Pi 4 (4GB+ RAM)](https://www.pollin.de/entwicklerboards/raspberry-pi/) für eine flüssige Haussteuerung.
+* **Display-Pi:** Ein günstigerer [Raspberry Pi 5 / 4](https://buyzero.de/products/raspberry-pi-5) oder ein bereits vorhandener Raspberry Pi 3B. Alternativer [Preisvergleich über Idealo](https://www.idealo.de/preisvergleich/OffersOfProduct/203479148_-5-raspberry-pi-foundation.html).
+* **Touchscreen (Option 1 - Empfehlung):** Das offizielle [Raspberry Pi Touch Display 2 (7 Zoll HD)](https://www.rasppishop.de/offizielles-7-Zoll-Raspberry-Pi-Touch-Display-2) – alternativ im [BerryBase Shop](https://www.berrybase.de/raspberry-pi-touch-display-2-7-portrait).
+* **Touchscreen (Option 2 - Günstige HDMI/USB Alternative):** [Elecrow 7 Zoll HDMI Touchscreen](https://www.amazon.de/raspberry-pi-display-7-zoll/s?k=raspberry+pi+display+7+zoll) für universellen HDMI-Anschluss.
+* **Sichere Netzteile:** Das offizielle [Raspberry Pi 27W USB-C Netzteil](https://www.amazon.de/smart-home-komponente-Raspberry-Starter-Kit-Netzteil-Geh%C3%A4use/dp/B0CW1Q5413) (Verhindert Abstürze durch Touchscreen-Stromspitzen).
+* **Speichermedien:** Langlebige [SanDisk Max Endurance MicroSD-Karte (32GB+)](https://westerndigital.com) für hohen Schreib-Verschleiß.
 
 ---
 
@@ -94,7 +95,7 @@ Da der Pi 3B weniger Leistung hat, optimieren wir hier den Autostart:
 
 ---
 
-## 🧩 Schritt 3: Funktionen & Integrationen auf dem Server einrichten
+## 🧩 Schritt 3: Alle Haus- und Familien-Funktionen auf dem Server einrichten
 
 Gehe an deinen Computer und öffne die Home Assistant Oberfläche (`http://homeassistant.local:8123`).
 
@@ -109,11 +110,11 @@ Der Home Assistant Community Store (HACS) schaltet alle benutzerdefinierten Kart
 
 ### 2. Design-Karten über HACS herunterladen
 Navigiere in Home Assistant zu **HACS** -> **Frontend** -> Klicke unten rechts auf das "+"-Symbol und suche nach folgenden Karten:
-1. **[Mushroom Cards](https://github.com):** Für touch-optimierte Schalter.
+1. **[Mushroom Cards](https://github.com):** Für moderne, große Touch-Buttons für Lampen, Jalousien, Steckdosen, Heizung und Staubsauger.
 2. **[Atomic Calendar Revive](https://github.com):** Für die Kalenderliste.
-3. **[Kiosk Mode](https://github.com):** Blendet Menüleisten automatisch aus.
+3. **[Kiosk Mode](https://github.com):** Blendet alle Menüleisten auf dem Touchscreen aus.
 4. **[Garbage Collection Card](https://github.com):** Für Müllabfuhr-Termine.
-5. **[Card Mod](https://github.com):** Ermöglicht optische CSS-Anpassungen.
+5. **[Chores Card](https://github.com):** Für den interaktiven Familien-Putzplan.
 
 ### 3. Google Family Kalender verknüpfen (API)
 1. Rufe die [Google Cloud Console](https://google.com) auf und erstelle ein neues Projekt.
@@ -124,60 +125,117 @@ Navigiere in Home Assistant zu **HACS** -> **Frontend** -> Klicke unten rechts a
 6. Kopiere **Client-ID** und **Client-Secret**.
 7. Wechsel zu Home Assistant -> **Einstellungen** -> **Geräte & Dienste** -> **Integration hinzufügen** -> **Google Calendar** und füge deine Daten dort ein.
 
-### 4. Weitere Alltagsfunktionen aktivieren
-* **Wetter:** Gehe auf *Einstellungen -> Geräte & Dienste -> Integration hinzufügen* und wähle **MET.no** (Standard-Wetter).
-* **Einkaufsliste:** Aktiviere die integrierte **To-do-Liste**-Funktion in Home Assistant (erstellt automatisch `todo.shopping_list`).
-* **ÖPNV (Abfahrtszeiten):** Suche unter Integrationen nach **Deutsche Bahn** oder installiere die passende Verkehrsverbund-Integration via HACS.
+### 4. Helfer für Zusatzfunktionen anlegen
+Gehe auf *Einstellungen -> Geräte & Dienste -> Helfer -> Helfer erstellen*:
+* Erstelle einen **Text-Helfer** (`input_text.essensplan`) für den wöchentlichen Menüplan.
+* Erstelle einen **Text-Helfer** (`input_text.pinnwand`) für Familien-Notizen.
 
 ---
 
-## 🎨 Schritt 4: Das komplette All-in-One Dashboard-Layout (YAML)
+## 🎨 Schritt 4: Das komplette Haussteuerungs- & Familien-Dashboard (YAML)
 
-Erstelle unter **Einstellungen** -> **Dashboards** ein neues Dashboard mit dem Namen `dashboard-familie`. Klicke oben rechts auf die drei Punkte -> **Dashboard bearbeiten** -> **Raw-Konfigurationseditor** und füge diesen Code ein:
+Erstelle unter **Einstellungen** -> **Dashboards** ein neues Dashboard mit dem Namen `dashboard-familie`. Klicke oben rechts auf die drei Punkte -> **Dashboard bearbeiten** -> **Raw-Konfigurationseditor** und füge diesen extrem erweiterten Code ein. Er trennt das Dashboard sauber in **Haussteuerung (Lichter etc.)** und **Familienorganisation (Kalender etc.)**.
 
 ```yaml
 views:
-  - title: Hauptansicht
+  # TAB 1: DAS HAUPT-DASHBOARD FÜR DIE GANZE HAUSSTEUERUNG
+  - title: Haussteuerung
     path: home
     type: sections
     cards:
-      # SEKTION 1: Wetter & Familie
+      # SPALTE 1: STATUS, SCHNELLZUGRIFF & WETTER
       - type: grid
         cards:
           - type: weather-forecast
             entity: weather.home
             forecast_type: daily
-            name: Wetter zu Hause
+            name: Wetter vor Ort
           - type: custom:mushroom-chips-card
             chips:
               - type: template
                 icon: mdi:trash-can
                 content: "Müll: {{ states('sensor.garbage_collection') }}"
                 icon_color: green
+              - type: template
+                icon: mdi:flash
+                content: "{{ states('sensor.smart_meter_power') }}W"
+                icon_color: amber
+              - type: template
+                icon: mdi:calendar
+                content: "Kalender öffnen"
+                icon_color: purple
+                tap_action:
+                  action: navigate
+                  navigation_path: /dashboard-familie/kalender-vollbild
 
-      # SEKTION 2: Beleuchtung (Touch-freundlich)
+      # SPALTE 2: KOMPLETTE LICHTSTEUERUNG (Mushroom)
       - type: grid
+        title: Beleuchtung
         cards:
           - type: custom:mushroom-light-card
             entity: light.wohnzimmer_licht
-            name: Wohnzimmer Licht
+            name: Wohnzimmer
             show_brightness_control: true
             use_light_color: true
             layout: vertical
           - type: custom:mushroom-light-card
             entity: light.kuche_licht
-            name: Küchenlicht
+            name: Küche
+            show_brightness_control: true
+            use_light_color: true
+            layout: vertical
+          - type: custom:mushroom-light-card
+            entity: light.schlafzimmer_licht
+            name: Schlafzimmer
             show_brightness_control: true
             use_light_color: true
             layout: vertical
 
-      # SEKTION 3: Kalender-Vorschau & Einkaufsliste
+      # SPALTE 3: HEIZUNG, STECKDOSEN & KLIMA
+      - type: grid
+        title: Klima & Energie
+        cards:
+          - type: custom:mushroom-climate-card
+            entity: climate.wohnzimmer_thermostat
+            name: Heizung Wohnzimmer
+            hvac_modes:
+              - heat
+              - 'off'
+            show_temperature_control: true
+          - type: custom:mushroom-entity-card
+            entity: switch.steckdose_fernseher
+            name: Fernseher Strom
+            tap_action:
+              action: toggle
+            icon: mdi:television
+
+      # SPALTE 4: ROLLLÄDEN (JALOUSIEN) & GERÄTE
+      - type: grid
+        title: Jalousien & Geräte
+        cards:
+          - type: custom:mushroom-cover-card
+            entity: cover.wohnzimmer_rollladen
+            name: Rollladen Wohnzimmer
+            show_buttons_control: true
+          - type: custom:mushroom-vacuum-card
+            entity: vacuum.saugroboter
+            name: Saugroboter
+            commands:
+              - start
+              - dock
+
+  # TAB 2: DAS EXTREM ERWEITERTE FAMILIEN-ORGANISATIONS-DASHBOARD
+  - title: Familienplaner
+    path: familienplaner
+    type: sections
+    cards:
+      # SPALTE 1: TERMINLISTE & EINKAUFSLISTE
       - type: grid
         cards:
           - type: custom:atomic-calendar-revive
             entities:
               - entity: calendar.family
-            name: Familien-Termine
+            name: Nächste Termine
             showCurrentEventLine: true
             maxDaysToShow: 5
             tap_action:
@@ -187,6 +245,32 @@ views:
             entity: todo.shopping_list
             title: Einkaufsliste
 
+      # SPALTE 2: ESSENSPLAN, PUTZPLAN & PINNWAND (Interaktiv!)
+      - type: grid
+        cards:
+          - type: custom:mushroom-template-card
+            primary: "📅 Was gibt's zu essen?"
+            secondary: "{{ states('input_text.essensplan') }}"
+            icon: mdi:food-apple
+            icon_color: red
+            tap_action:
+              action: more-info
+              entity: input_text.essensplan
+          - type: custom:chores-card
+            title: Putzplan / Haushalt
+            entities:
+              - entity: sensor.chore_staubsaugen
+              - entity: sensor.chore_mull_raustragen
+          - type: custom:mushroom-template-card
+            primary: "📌 Familien-Pinnwand"
+            secondary: "{{ states('input_text.pinnwand') }}"
+            icon: mdi:note-text
+            icon_color: purple
+            tap_action:
+              action: more-info
+              entity: input_text.pinnwand
+
+  # TAB 3: KALENDER IM VOLLBILD-MONATSMODUS
   - title: Kalender Vollbild
     path: kalender-vollbild
     type: panel
