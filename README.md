@@ -238,18 +238,6 @@ mode: single
 
 ---
 
-## 🛠️ Schritt 6: So veröffentlichst du dieses Projekt auf GitHub
-
-Um dieses Projekt in deinem eigenen GitHub-Profil zu speichern:
-
-1. Registriere dich auf [GitHub](https://github.com).
-2. Klicke oben rechts auf das **+** Symbol -> **New repository**.
-3. Benenne dein Repository (z.B. `home-assistant-family-touch-kiosk`).
-4. Setze das Häkchen bei **Add a README file** und klicke auf **Create repository**.
-5. Klicke in deinem neuen Repository auf die Datei `README.md` und wähle das Stift-Symbol (**Edit this file**).
-6. Lösche den vorhandenen Text, füge diese komplette Anleitung hier ein und klicke oben rechts auf den grünen Button **Commit changes...**.
-
----
 
 ## 🔗 Hilfreiche Links & Quellen
 * **Home Assistant OS Download:** [home-assistant.io/installation](https://home-assistant.io)
